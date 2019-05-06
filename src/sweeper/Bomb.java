@@ -1,59 +1,57 @@
 package sweeper;
 
-import java.util.Random;
-
 class Bomb {
 
     private Matrix bombMap;
     private int totalBombs;
 
-    Bomb (int  totalBombs) {
+    Bomb(int totalBombs) {
         this.totalBombs = totalBombs;
         fixBombCount();
     }
 
     void start() {
-
         bombMap = new Matrix(Box.ZERO);
-        for (int i = 0; i < totalBombs ; i++) {
+        for (int i = 0; i < totalBombs; i++) {
             placeBomb();
         }
     }
 
-    Box get (Coord coord){
-
+    Box get(Coord coord) {
         return bombMap.get(coord);
     }
 
-    private void fixBombCount () {
-
+    private void fixBombCount() {
         int maxBombs = Ranges.getSize().x * Ranges.getSize().y / 2;
-        if (totalBombs > maxBombs)
+        if (totalBombs > maxBombs) {
             totalBombs = maxBombs;
+        }
     }
 
     private void placeBomb() {
-
         while (true) {
             Coord coord = Ranges.getRandomCoord();
-            if (Box.BOMB == bombMap.get(coord))
+            if (Box.BOMB == bombMap.get(coord)) {
                 continue;
+            }
             bombMap.set(coord, Box.BOMB);
-            incNumbersAroundsBomb(coord);
+            incNumbersAroundBomb(coord);
             break;
         }
     }
 
-    private void incNumbersAroundsBomb (Coord coord) {
-
-        for (Coord around: Ranges.getCoordsAround(coord)) {
-            if (Box.BOMB != bombMap.get(around))
-            bombMap.set (around, bombMap.get(around).getNextNumberBomb());
+    private void incNumbersAroundBomb(Coord coord) {
+        for (Coord around : Ranges.getCoordsAround(coord)) {
+            if (Box.BOMB != bombMap.get(around)) {
+                bombMap.set(
+                    around,
+                    bombMap.get(around).getNextNumberBomb()
+                );
+            }
         }
     }
 
     int getTotalBomb() {
-
         return totalBombs;
     }
 }

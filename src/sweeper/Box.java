@@ -19,7 +19,7 @@ public enum Box {
 
     public Object image;
 
-    Box getNextNumberBomb () {
+    Box getNextNumberBomb() {
 
         return Box.values()[this.ordinal() + 1];
     }
